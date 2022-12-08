@@ -95,7 +95,7 @@ There are two Python scripts that must be run in the following order to provisio
 
 The following files and directories are present in the project repository:
 
-* `data/` - This directory holds `log_data` and `song_data` which is loaded into the database.
+* `data/` - This directory holds example `log_data` and `song_data` which can be loaded into the database.
 * `create_tables.py` - This script creates or connects to a database instance, drops existing tables, and creates all of the database tables according to the schema.
 * `etl.ipynb` - This is a Jupyter notebook for testing the ETL process.
 * `etl.py` - This is the file that performs the ETL process, including processing song and log data.
