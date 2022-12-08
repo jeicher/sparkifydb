@@ -6,7 +6,7 @@ from sql_queries import *
 
 def process_song_file(cur, filepath):
     """Reads song data from a JSON filepath, extracting song and artist data
-    from the first item, and inserts them into the songs and artists tables
+    from the first (and only) item, and inserts them into the songs and artists tables
     respectively.
     """
 

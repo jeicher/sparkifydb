@@ -18,7 +18,11 @@ CREATE TABLE IF NOT EXISTS songplays (
     artist_id varchar, 
     session_id int, 
     location varchar, 
-    user_agent varchar
+    user_agent varchar,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_song FOREIGN KEY (song_id) REFERENCES songs(song_id) ON DELETE CASCADE,
+    CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES artists(artist_id) ON DELETE CASCADE,
+    CONSTRAINT fk_time FOREIGN KEY (start_time) REFERENCES time(start_time) ON DELETE CASCADE
 );
 """)
 
@@ -117,5 +121,5 @@ WHERE
 
 # QUERY LISTS
 
-create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
-drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+create_table_queries = [user_table_create, song_table_create, artist_table_create, time_table_create, songplay_table_create]
+drop_table_queries = [user_table_drop, song_table_drop, artist_table_drop, time_table_drop, songplay_table_drop]
