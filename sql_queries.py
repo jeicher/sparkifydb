@@ -33,15 +33,35 @@ CREATE TABLE IF NOT EXISTS users (
 """)
 
 song_table_create = ("""
-CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, title varchar NOT NULL, artist_id varchar, year int, duration real NOT NULL);
+CREATE TABLE IF NOT EXISTS songs (
+    song_id varchar PRIMARY KEY,
+    title varchar NOT NULL,
+    artist_id varchar,
+    year int,
+    duration real NOT NULL
+);
 """)
 
 artist_table_create = ("""
-CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, name varchar NOT NULL, location varchar, latitude double precision, longitude double precision);
+CREATE TABLE IF NOT EXISTS artists (
+    artist_id varchar PRIMARY KEY,
+    name varchar NOT NULL,
+    location varchar,
+    latitude double precision,
+    longitude double precision
+);
 """)
 
 time_table_create = ("""
-CREATE TABLE IF NOT EXISTS time (start_time timestamp PRIMARY KEY, hour int, day int, week int, month int, year int, weekday int);
+CREATE TABLE IF NOT EXISTS time (
+    start_time timestamp PRIMARY KEY,
+    hour int,
+    day int,
+    week int,
+    month int,
+    year int,
+    weekday int
+);
 """)
 
 # INSERT RECORDS
@@ -53,23 +73,6 @@ ON CONFLICT
 DO NOTHING
 """)
 
-
-# Creating a temporary table was necessary as the COPY command does not
-# appear to allow an ON CONFLICT clause
-# (adapted from https://stackoverflow.com/a/48020691/2915339)
-# user_table_insert = ("""
-# CREATE TEMPORARY TABLE temp_users (user_id int, first_name varchar, last_name varchar, gender char(1), level varchar);
-#
-# COPY temp_users (user_id, first_name, last_name, gender, level) FROM %s WITH CSV;
-#
-# INSERT INTO users (user_id, first_name, last_name, gender, level)
-# SELECT *
-# FROM temp_users
-# ON CONFLICT (user_id)
-# DO UPDATE SET level = EXCLUDED.level;
-#
-# DROP TABLE temp_users;
-# """)
 
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level)
@@ -94,28 +97,12 @@ ON CONFLICT
 DO NOTHING
 """)
 
-# Creating a temporary table was necessary as the COPY command does not
-# appear to allow an ON CONFLICT clause
-# (adapted from https://stackoverflow.com/a/48020691/2915339)
 time_table_insert = ("""
-CREATE TEMPORARY TABLE temp_time (start_time timestamp, hour int, day int, week int, month int, year int, weekday int);
-
-COPY temp_time (start_time, hour, day, week, month, year, weekday) FROM %s WITH CSV;
-
 INSERT INTO time (start_time, hour, day, week, month, year, weekday)
-SELECT *
-FROM temp_time 
-ON CONFLICT DO NOTHING;
-
-DROP TABLE temp_time;
+VALUES (%s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT
+DO NOTHING
 """)
-
-#time_table_insert = ("""
-#INSERT INTO time (start_time, hour, day, week, month, year, weekday)
-#VALUES (%s, %s, %s, %s, %s, %s, %s)
-#ON CONFLICT
-#DO NOTHING
-#""")
 
 # FIND SONGS
 

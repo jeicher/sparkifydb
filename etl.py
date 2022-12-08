@@ -3,7 +3,6 @@ import glob
 import psycopg2
 import pandas as pd
 from sql_queries import *
-import tempfile
 
 def process_song_file(cur, filepath):
     """Reads song data from a JSON filepath, extracting song and artist data
@@ -44,30 +43,18 @@ def process_log_file(cur, filepath):
     column_labels = ['time_stamp', 'hour', 'day', 'week', 'month', 'year', 'weekday']
     time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
 
-    # adapted from https://stackoverflow.com/a/58955530/2915339
-    with open(os.path.join(tempfile.gettempdir(), os.urandom(12).hex()), 'w') as tf:
-        time_df.to_csv(tf, index=False, header=False) 
-        cur.execute(time_table_insert, (tf.name,))
-
-    # for i, row in time_df.iterrows():
-    #    cur.execute(time_table_insert, list(row))
+    for _, row in time_df.iterrows():
+       cur.execute(time_table_insert, list(row))
 
     # load user table
     user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']]
 
-    # insert user records
-    # adapted from https://stackoverflow.com/a/58955530/2915339
-    # with open(os.path.join(tempfile.gettempdir(), os.urandom(12).hex()), 'w') as tf:
-    #     user_df.to_csv(tf, index=False, header=False)
-    #     cur.execute(user_table_insert, (tf.name,))
-        
     for _, row in user_df.iterrows():
        cur.execute(user_table_insert, row)
 
     # insert songplay records
 
-
-    for index, row in df.iterrows():
+    for _, row in df.iterrows():
     
         # get songid and artistid from song and artist tables
         cur.execute(song_select, (row.song, row.artist, row.length))
