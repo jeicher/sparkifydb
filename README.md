@@ -102,6 +102,7 @@ The following files and directories are present in the project repository:
 * `README.md` - This file.
 * `sql_queries.py` - This file contains a collection of SQL queries to create tables, insert data into tables, and query the songs table.
 * `test.ipynb` - This Jupyter notebook contains a number of tests to evaluate the ETL process and the database schema.
+* `requirements.txt` - Python dependencies
 
 
 # Database schema design and ETL pipeline
