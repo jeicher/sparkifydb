@@ -5,9 +5,16 @@ import pandas as pd
 from sql_queries import *
 
 def process_song_file(cur, filepath):
-    """Reads song data from a JSON filepath, extracting song and artist data
-    from the first (and only) item, and inserts them into the songs and artists tables
-    respectively.
+    """
+
+    Reads song data from a JSON filepath, extracting song and artist data from
+    the first (and only) item, and inserts them into the songs and artists
+    tables respectively.
+
+        Parameters:
+                cur: psycopg2 cursor for querying with the database
+                filepath (str): Path to song data file
+
     """
 
     # open song file
@@ -23,9 +30,13 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
-    """Reads user activity data from a JSON filepath, and populates the time,
-    users, and songplays tables. 
-    Relies on the song table being prepopulated.
+    """
+    Reads user activity data from a JSON filepath, and populates the time,
+    users, and songplays tables. Relies on the song table being prepopulated.
+
+        Parameters:
+                cur: psycopg2 cursor for querying with the database
+                filepath (str): Path to log data file
     """
 
     # open log file
@@ -72,9 +83,16 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
-    """Traverses all the data files in the provided data directory filepath,
+    """
+    Finds all the data files in the provided data directory (`filepath`),
     performing `func` on each file (where `func` ought to be `process_log_file`
-    or `process_song_file` or equivalent).
+    or `process_song_file` or equivalent)
+
+        Parameters:
+                cur: psycopg2 cursor for querying with the database
+                conn: psycopg2 connection to the database
+                filepath (str): Path to parent data directory
+                func: function to apply to each data file in data directory
     """
 
     # get all files matching extension from directory
