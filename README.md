@@ -126,50 +126,50 @@ The ETL process for reading these data files and populating the database proceed
 
 ### For each song data file:
 
-    1. parse file contents to Pandas DataFrame
-    2. extract the following fields from the single record in the file, and insert a row in the `songs` table:
-        - `song_id`
-        - `title`
-        - `artist_id`
-        - `year`
-        - `duration`
-    3. extract the following fields from the single record in the file, and insert a row in the `artists` table:
-        - `artist_id`
-        - `artist_name`
-        - `artist_location`
-        - `artist_latitude`
-        - `artist_longitude`
+1. parse file contents to Pandas DataFrame
+2. extract the following fields from the single record in the file, and insert a row in the `songs` table:
+    - `song_id`
+    - `title`
+    - `artist_id`
+    - `year`
+    - `duration`
+3. extract the following fields from the single record in the file, and insert a row in the `artists` table:
+    - `artist_id`
+    - `artist_name`
+    - `artist_location`
+    - `artist_latitude`
+    - `artist_longitude`
 
 ### For each log file:
 Note: the data in the fact table `songplays` is derived from both the songs and logs data sets.
 
-    1. parse file contents to Pandas DataFrame
-    2. filter entries to only include those with the `NextSong` `page` action.
-    3. convert the timestamp (`ts`) column to Pandas timestamp format
-    4. populate the `time` table with the following values derived from the Pandas timestamp (`ts`):
-        - `time_stamp`
-        - `hour`
-        - `day`
-        - `week`
-        - `month`
-        - `year`
-        - `weekday`
-    5. populate the `users` table with the following data values:
+1. parse file contents to Pandas DataFrame
+2. filter entries to only include those with the `NextSong` `page` action.
+3. convert the timestamp (`ts`) column to Pandas timestamp format
+4. populate the `time` table with the following values derived from the Pandas timestamp (`ts`):
+    - `time_stamp`
+    - `hour`
+    - `day`
+    - `week`
+    - `month`
+    - `year`
+    - `weekday`
+5. populate the `users` table with the following data values:
+    - `userId`
+    - `firstName`
+    - `lastName`
+    - `gender`
+    - `level`
+6. Finally, we create an entry in the `songplays` table by:
+    - retrieving the associated `song_id` and `artist_id` from the `songs` and `artists` table using the `song`, `artist` , and `length` values of the current log entry, and
+    - inserting the following values into the `songplays` table:
+        - `ts`
         - `userId`
-        - `firstName`
-        - `lastName`
-        - `gender`
         - `level`
-    6. Finally, we create an entry in the `songplays` table by:
-        - retrieving the associated `song_id` and `artist_id` from the `songs` and `artists` table using the `song`, `artist` , and `length` values of the current log entry, and
-        - inserting the following values into the `songplays` table:
-            - `ts`
-            - `userId`
-            - `level`
-            - `songid`
-            - `artistid`
-            - `sessionId`
-            - `location`
-            - `userAgent`
+        - `songid`
+        - `artistid`
+        - `sessionId`
+        - `location`
+        - `userAgent`
 
 
